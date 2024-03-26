@@ -19,8 +19,7 @@
           <ul id="sidemenu">
             <li><a href="index.html">Home</a></li>
             <li><a href="#about">About</a></li>
-            <li><a href="#eula">End-User License Agreement</a></li>
-            <li><a href="#privacy">Privacy Policy</a></li>
+            <li><a href="privacy.html#privacy">Privacy Policy</a></li>
             <li><a href="#contact">Contact</a></li>
             <i class="fas fa-times" onclick="closeMenu()"></i>
           </ul>
@@ -66,97 +65,6 @@
       </div>
     </div>
 
-    <!-- --------------eula---------------- -->
-    <div id="eula">
-      <div class="container">
-        <div class="row">
-          <div class="about-col-2">
-            <h1>End-User License Agreement</h1>
-            <p>
-              Step into a world of connection where every encounter adds a new
-              chapter to our collective story. Share your experiences, thoughts,
-              and dreams with fellow PolyPals to build a community that
-              celebrates diversity and fosters genuine connections.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- --------------privacy---------------- -->
-    <div id="privacy">
-      <div class="container">
-        <div class="row">
-          <div class="privacy-col-2">
-            <h1>Privacy Policy</h1>
-            <p>
-                1. Information We Collect:
-                <br>•	Account Information: To create an account, we collect your school email, created password, first name, last name, school major, gender, school year, and about me.
-
-                <br>•	Profile Picture: Optionally, you can upload a photo from your gallery.
-
-                <br>•	Map Coordinates: When pinning your location on the map, we capture coordinates.
-
-                <br>•	Description/Status: You have the option to provide a written note or status to share with connected users.
-
-                <br>•	Push Notification Tokens: We collect push notification tokens to send you relevant updates and alerts.<br>
-                                        
-                                        
-                <br>2. How We Use Your Information:
-                <br>•	Authentication: Your school email and choice of password are utilized for account creation and authentication. (There is no link between PolyPal’s account creation to school email. School email is used to send verification email to confirm user is student).
-
-                <br>•	Profile Information: We use your profile details to personalize your experience on PolyPals and connect you with other users.
-
-                <br>•	Profile Picture: Your chosen profile picture is visible to other users.
-
-                <br>•	Map Coordinates: We use this information to facilitate the map feature within PolyPals.
-
-                <br>•	Description/Status: Your written note or status is shared with your connected users upon pinning a location on the map.
-
-                <br>•	Push Notifications: We send push notifications to keep you informed about relevant PolyPals updates, new connections, and other important information.<br>
-
-                                        
-                <br>3. Data Storage:
-                <br>•	Authentication: Your authentication details are securely stored.
-
-                <br>•	Data Storage: Profile information, map coordinates, and profile pictures are stored securely.<br>
-                                        
-                                        
-                <br>4. Third-Party Services:
-                <br>•	PolyPals utilizes third-party services for authentication, data storage, hosting, and push notifications. These services are subject to their respective privacy policies.<br>
-
-                <br>5. User Discretion and Safety Measures:
-                <br>•	Meeting Fellow Connected Users: Users must exercise discretion and judgment when choosing to meet fellow connected users.
-
-                <br>•	Location Awareness: Be mindful of sharing precise locations and meet in public, on-campus areas for initial meetups.
-
-                <br>•	Current Location Feature: PolyPals tracks real-time locations; however, it relies on user-pinned coordinates meaning locations aren’t seen by other’s unless pinned by user.<br>
-                                        
-                                        
-                <br>6. Your Choices:
-                <br>•	You can review and update your account information within the PolyPals app.
-
-                <br>•	Opt-out of receiving promotional emails by adjusting your email preferences. <br>                       
-                                                          
-                                        
-                <br>8. Changes to this Privacy Policy:
-                <br>We may update this Privacy Policy to reflect changes in our practices. Please review this policy periodically.<br>
-                                        
-                <br>9. Contact Us:
-                <br>For questions or concerns regarding this Privacy Policy, contact us at officialpolypals@gmail.com<br>
-                                        
-                <br>By using PolyPals, you agree to the terms of this Privacy Policy.<br>
-                                        
-                <br>PolyPals
-                <br>officialpolypals@gmail.com<br>
-                                        
-                <br>[End of Privacy Policy]
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- --------------contact---------------- -->
     <div id="contact">
       <div class="container">
@@ -175,15 +83,17 @@
             </div>
           </div>
           <div class="contact-right">
-            <form>
-              <p></p>
+            <form name="submit-to-google-sheet">
+              <p>Full Name</p>
               <input type="text" name="Name" placeholder="Your Name" required />
+              <p>Email Address</p>
               <input
                 type="email"
-                name="email"
+                name="Email"
                 placeholder="Your Email"
                 required
               />
+              <p>Feedback/Questions</p>
               <textarea
                 name="Message"
                 rows="6"
@@ -191,6 +101,7 @@
               ></textarea>
               <button type="submit" class="btn">Submit</button>
             </form>
+            <span id="msg"></span>
           </div>
         </div>
       </div>
@@ -202,3 +113,28 @@
     </footer>
   </body>
 </html>
+
+<form name="submit-to-google-sheet">
+  <input name="email" type="email" placeholder="Email" required />
+  <button type="submit">Send</button>
+</form>
+
+<script>
+  const scriptURL =
+    "https://script.google.com/macros/s/AKfycbwYdO9NLqlBOaDDNlF9FFFyRLwbQ5hTGpVfq0Oq18muHMJcMw8DM3O12jD6FUzLxkw/exec";
+  const form = document.forms["submit-to-google-sheet"];
+  const msg = document.getElementById("msg");
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    fetch(scriptURL, { method: "POST", body: new FormData(form) })
+      .then((response) => {
+        msg.innerHTML = "Message was sent succesfully!";
+        setTimeout(function () {
+          msg.innerHTML = "";
+        }, 5000);
+        form.reset();
+      })
+      .catch((error) => console.error("Error!", error.message));
+  });
+</script>
